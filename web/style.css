@@ -1,0 +1,28 @@
+*, ul {
+  margin: 0;
+  padding: 0;
+}
+
+.main {
+}
+
+#main ul {
+  position: absolute;
+  left: 50%;
+}
+#main ul li {
+  list-style-type: none;
+  height: 38px;
+  background-color: black;
+  margin-bottom: 8px;
+  position: relative;
+}
+#main ul li .label {
+  white-space: nowrap;
+  position: relative;
+  color: black;
+  font-size: 30px;
+  font-family: Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  padding: 0 6px;
+}
