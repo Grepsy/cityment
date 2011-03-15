@@ -5,7 +5,7 @@ ENV['LIBDIR'] = ENV['APP_ROOT'].to_s + '/lib'
 
 desc "Open an irb session preloaded with paths and modules"
 task :console do
-  sh "irb -I #{ENV['LIBDIR']} -r #{'feed'} --simple-prompt"
+  sh "irb -I #{ENV['LIBDIR']} -r #{'cityment'} --simple-prompt"
 end
 
 task :test do
