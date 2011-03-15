@@ -9,7 +9,8 @@ task :console do
 end
 
 task :test do
-  test_files = ['unit/tc_endpoint.rb']
+  test_files = ['unit/tc_api.rb',
+                'unit/tc_xml.rb']
   test_files.each do |file|
     run_test file    
   end
