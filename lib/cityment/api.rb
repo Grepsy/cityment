@@ -7,6 +7,6 @@ module Cityment
        port: 80,
        base: 'v1/news.xml',
        params: {token: 'appsadam_1'}})
-     
+    
   end
 end #cityment
