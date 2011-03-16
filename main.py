@@ -1,29 +1,52 @@
+import json
+import os
+import libxml2
 from pattern.web import Google, plaintext
 from pattern.en import parse, split, wordnet
 from pattern.en import ADJECTIVE
-from pattern.table import Table, pprint
-
-wordnet.sentiment.load();
-
-print wordnet.sentiment["good"]
-print wordnet.sentiment["bad"]
-print wordnet.sentiment["explosion"]
+from itertools import groupby
 
 def score(word):
     # neg..pos, range -1..1, disregards objectivity
-    return wordnet.sentiment[word][1] - wordnet.sentiment[word][0]
+    return wordnet.sentiment[word][0] - wordnet.sentiment[word][1]
 
-tups = (("noord", "AMSTERDAM - Een gebouw van een kerncentrale in het noordoosten van Japan is zaterdag ontploft.\
-          Door de explosie in Fukushima Daichi I is het dak ingestort en zijn de buitenmuren weggevallen."),
-        ("zuid", "AMSTERDAM - Een Tunesische bloggersgroep heeft de Netizen-prijs van Verslaggevers Zonder Grenzen gewonnen voor zijn belangrijke bijdrage aan de opstand in het Noord-Afrikaanse land, die in januari leidde tot het vertrek van president Zine El Abidine Ben Ali."))
+articles = []
+for root, dirs, files in os.walk('static'):
+    for filename in files:
+        doc = libxml2.parseFile('static/' + filename)
+        for item in doc.xpathEval('/result/items/item'):
+            areas = item.xpathEval('buurt/title')
+            if len(areas) == 0: continue
+            area = areas[0].content
+            text = item.xpathEval('content')[0].content
+            articles.append((area, text))
 
-table = Table()
-for area, text in tups:
-    trans = Google().translate(plaintext(text), "nl", "en")
+# print articles
+# articles = (("noord", "goed goed goed"),
+#             ("west", "aap aap aap"),
+#             ("zuid", "slecht slecht slecht"))
 
-    #for word in trans.split(" "):
-        #print word, score(word)
-    linescore = sum([score(word) for word in trans.split(" ")])
-    table.append([area, text, linescore])
+wordnet.sentiment.load();
 
-pprint(table)
+table = {}
+for area, text in articles:
+    plain = plaintext(text)
+    trans = Google().translate(plain, "nl", "en")
+
+    textscore = sum([score(word) for word in trans.split(" ")])
+    if area in table:
+        table[area] += textscore
+    else:
+        table[area] = textscore
+    print area, textscore
+
+prep = []
+for area, score in table.iteritems():
+    prep.append({ "area": area, "score": score })
+
+prep = sorted(prep, reverse=True, key=lambda row: row["score"])
+
+export = open("web/export.js", "w")
+export.write('var scores = ')
+export.write(json.dumps(prep))
+export.close()
