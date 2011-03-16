@@ -8,11 +8,14 @@ module Cityment
        base: 'v1/news.xml',
        params: {token: 'appsadam_1'}})
        
-    def fetch params = {}
+    def fetch params = {}, respClass = nil
       def_params = ENDPOINT.opts[:params]
       req_params = def_params.merge params
       
-      ENDPOINT.get :params => req_params
-    end    
+      resp = ENDPOINT.get :params => req_params
+      resp = respClass.new(resp.body) unless respClass == nil
+      return resp
+    end
+        
   end
 end #cityment
