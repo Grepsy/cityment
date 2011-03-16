@@ -19,5 +19,16 @@ module Cityment
       
     end #Document
     
+    class SourceDocument < Document
+      
+      def dates
+        @dates ||= self.xpath('/result/items/item/created_at').map do |e|
+          DateTime.parse(e.inner_text)
+        end.sort!
+        #return []
+      end
+      
+    end
+    
   end # XML
 end #Cityments

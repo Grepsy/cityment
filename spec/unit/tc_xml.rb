@@ -1,12 +1,13 @@
 require 'minitest/autorun'
 require 'cityment/xml'
 require 'fileutils'
+require 'date'
 
 include Cityment::XML
 
+FIXDIR = ENV['APP_ROOT'] + '/spec/fixtures'
+
 describe Document do
-  
-  FIXDIR = ENV['APP_ROOT'] + '/spec/fixtures'
   
   describe :save do
     it "saves file to /xml folder" do    
@@ -32,15 +33,21 @@ describe Document do
   
 end
 
-#describe SourceDoc do
-#  
-#  describe :date_range do
-#    
-#    it "returns an array containing the first and last item date" do
-#      
-#    srcdoc  
-#    assert(srcdoc.date_range[1] < srcdoc.date_range[2])
-#    
-#  end
-#  
-#end 
+describe SourceDocument do
+  
+  describe :dates do
+    
+    it "returns an array of item dates in source document" do  
+      fixture_path = FIXDIR + '/source_document.xml'
+      doc = SourceDocument.parse(File.read(fixture_path))
+      
+      assert(doc.dates.sample.kind_of? DateTime)
+    end
+    it "sorts dates chornologically" do
+      fixture_path = FIXDIR + '/source_document.xml'
+      doc = SourceDocument.parse(File.read(fixture_path))
+      
+      assert(doc.dates.first < doc.dates[-1])
+    end
+  end
+end 
