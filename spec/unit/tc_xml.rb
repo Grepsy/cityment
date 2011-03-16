@@ -6,20 +6,24 @@ include Cityment::XML
 
 describe Document do
   
+  FIXDIR = ENV['APP_ROOT'] + '/spec/fixtures'
+  
   describe :save do
     it "saves file to /xml folder" do    
-      fixture_path = ENV['APP_ROOT'] + '/spec/fixtures/xmldoc.xml'
-      save_path = ENV['APP_ROOT'] + '/xml/tmp_unit_test.xml'
       
+      fixture_path = FIXDIR + '/xmldoc.xml'
       xmldoc = Document.parse(File.read(fixture_path))
-      xmldoc.save 'tmp_unit_test.xml'
-      
-      assert(xmldoc.to_xml == File.read(save_path))
+
+      xmldoc.save 'test_xmldoc.xml'
+      save_path = DIR + '/test_xmldoc.xml'
+    
+      assert(File.read(fixture_path) == File.read(save_path))
       FileUtils.rm(save_path)
     end
-    it "returns an array of syntax errors instead of saving when present" do
+    
+    it "returns an array of syntax errors (when present) instead of saving" do
 
-      fixture_path = ENV['APP_ROOT'] + '/spec/fixtures/syntax_error.xml'      
+      fixture_path = FIXDIR + '/syntax_error.xml'      
       xmldoc = Document.parse(File.read(fixture_path))
       
       assert(xmldoc.save('test_syntax_error.xml').sample.kind_of? Nokogiri::XML::SyntaxError )
