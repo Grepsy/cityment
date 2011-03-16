@@ -8,7 +8,7 @@ module Cityment
        base: 'v1/news.xml',
        params: {token: 'appsadam_1'}})
        
-    def fetch params = {}, respClass = nil
+    def API.fetch params = {}, respClass = nil
       def_params = ENDPOINT.opts[:params]
       req_params = def_params.merge params
       

@@ -30,13 +30,13 @@ end
 describe :fetch do
   it 'executes a request inculding extra parameters' do
       
-    res = fetch :num => 10, :laterthen => '2009-01-01'
+    res = Cityment::API.fetch :num => 10, :laterthen => '2009-01-01'
     assert(res.code.to_i == 200, "Incorrect respone code: #{res.code.to_i}")
   end
   
   it "wraps response in a class instance of choice" do
     
-    resp = fetch({:num => 10, :laterthen => '2009-01-01'}, String)
+    resp = Cityment::API.fetch({:num => 10, :laterthen => '2009-01-01'}, String)
     assert(resp.kind_of? String)
     
   end
