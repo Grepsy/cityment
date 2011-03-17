@@ -34,11 +34,4 @@ describe :fetch do
     assert(res.code.to_i == 200, "Incorrect respone code: #{res.code.to_i}")
   end
   
-  it "wraps response in a class instance of choice" do
-    
-    resp = Cityment::API.fetch({:num => 10, :laterthen => '2009-01-01'}, String)
-    assert(resp.kind_of? String)
-    
-  end
-  
 end
