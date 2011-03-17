@@ -41,3 +41,9 @@ module Cityment
     end # POX
   end # XML
 end # Cityments
+
+class DateTime
+  def stamp
+    self.to_date.iso8601.to_s.delete('-')
+  end
+end
