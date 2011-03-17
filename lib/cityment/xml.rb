@@ -21,9 +21,3 @@ module Cityment
     end #Document
   end # XML
 end #Cityments
-
-class DateTime
-  def stamp
-    self.to_date.iso8601.to_s.delete('-')
-  end
-end
