@@ -9,19 +9,9 @@ task :console do
 end
 
 task :test do
-  test_files = ['unit/tc_api.rb',
-                'unit/tc_xml.rb']
-  test_files.each do |file|
-    run_test file    
-  end
-end
-
-def run_test file
-  path = ENV['APP_ROOT'] + '/spec/' + file
   begin
-    sh "ruby -I #{ENV['LIBDIR']} #{path}"
+    sh "turn -I #{ENV['LIBDIR']} -n 'spec/unit/tc_*.rb' -m"
   rescue => e
-    puts e.message
-    # Hide e.backtrace
-  end
+    e.message
+  end  
 end
