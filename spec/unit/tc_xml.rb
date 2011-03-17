@@ -36,7 +36,6 @@ end
 describe SourceDocument do
   
   describe :dates do
-    
     it "returns an array of item dates in source document" do  
       fixture_path = FIXDIR + '/source_document.xml'
       doc = SourceDocument.parse(File.read(fixture_path))
@@ -50,4 +49,16 @@ describe SourceDocument do
       assert(doc.dates.first < doc.dates[-1])
     end
   end
+  describe :save do
+    it "saves files using a first and last datestamp" do
+      fixture_path = FIXDIR + '/source_document.xml'      
+      doc = SourceDocument.parse(File.read(fixture_path))
+      doc.save
+      
+      save_path = DIR + '/src/20110316-20110316.xml'
+      
+      assert(File.read(fixture_path) == File.read(save_path))
+    end
+  end
+  
 end 

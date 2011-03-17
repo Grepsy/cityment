@@ -1,4 +1,5 @@
 require 'nokogiri'
+require 'date'
 
 module Cityment
   module XML
@@ -28,7 +29,17 @@ module Cityment
         #return []
       end
       
+      def save
+        File.exist?(DIR + '/src') || Dir.mkdir(DIR + '/src') 
+        super 'src/' + dates[0].stamp + '-' + dates[-1].stamp + '.xml'
+      end
+      
     end
-    
   end # XML
 end #Cityments
+
+class DateTime
+  def stamp
+    self.to_date.iso8601.to_s.delete('-')
+  end
+end
