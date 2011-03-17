@@ -19,22 +19,6 @@ module Cityment
       end
       
     end #Document
-    
-    class SourceDocument < Document
-      
-      def dates
-        @dates ||= self.xpath('/result/items/item/created_at').map do |e|
-          DateTime.parse(e.inner_text)
-        end.sort!
-        #return []
-      end
-      
-      def save
-        File.exist?(DIR + '/src') || Dir.mkdir(DIR + '/src') 
-        super 'src/' + dates[0].stamp + '-' + dates[-1].stamp + '.xml'
-      end
-      
-    end
   end # XML
 end #Cityments
 
