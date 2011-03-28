@@ -1,5 +1,6 @@
 require 'rufus/verbs'
 require 'cityment/config'
+require 'cityment/datetime'
 
 module Cityment
   module API
@@ -14,8 +15,7 @@ module Cityment
     end
     
     def API.fetch_range startdt, enddt
-      dt_format = "%Y-%m-%d %H:%M:%S"
-      fetch :betweena => startdt.strftime(dt_format), :betweenb => enddt.strftime(dt_format)
+      fetch :betweena => startdt.at5_api_format, :betweenb => enddt.at5_api_format
     end
         
   end

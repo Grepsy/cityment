@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'cityment/api'
 require 'cityment/xml/pox'
 require 'tempfile'
+require 'cityment/datetime'
 
 include Cityment::API
 
@@ -38,8 +39,8 @@ end
 
 describe :fetch_range do
   it "executes a request between two dates" do
-    start_date = Date.parse "2009-01-01 00:00:00"
-    end_date = Date.parse "2009-02-01 00:00:00"
+    start_date = DateTime.parse "2009-01-01 00:00:00"
+    end_date = DateTime.parse "2009-02-01 00:00:00"
     
     resp = Cityment::API.fetch_range(start_date, end_date) 
     doc = Cityment::XML::POX::SourceDocument.parse(resp.body)
