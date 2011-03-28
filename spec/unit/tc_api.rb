@@ -46,4 +46,12 @@ describe :fetch_range do
     doc = Cityment::XML::POX::SourceDocument.parse(resp.body)
     assert(doc.dates.sample > start_date && doc.dates.sample < end_date)
   end
+  it "takes accepts strings as date arguments" do
+    start_date = '2009-01-01'
+    end_date = '2009-01-02'
+    
+    resp = Cityment::API.fetch_range(start_date, end_date)
+    doc = Cityment::XML::POX::SourceDocument.parse(resp.body)
+    assert(doc.dates.sample > DateTime.parse(start_date) && doc.dates.sample < DateTime.parse(end_date))
+  end
 end
