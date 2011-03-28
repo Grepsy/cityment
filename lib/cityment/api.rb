@@ -11,7 +11,11 @@ module Cityment
       req_params = def_params.merge params
       
       resp = ENDPOINT.get :params => req_params
-      
+    end
+    
+    def API.fetch_range startdt, enddt
+      dt_format = "%Y-%m-%d %H:%M:%S"
+      fetch :betweena => startdt.strftime(dt_format), :betweenb => enddt.strftime(dt_format)
     end
         
   end

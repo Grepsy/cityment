@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'cityment/api'
+require 'cityment/xml/pox'
 require 'tempfile'
 
 include Cityment::API
@@ -33,5 +34,15 @@ describe :fetch do
     res = Cityment::API.fetch :num => 10, :laterthen => '2009-01-01'
     assert(res.code.to_i == 200, "Incorrect respone code: #{res.code.to_i}")
   end
-  
+end
+
+describe :fetch_range do
+  it "executes a request between two dates" do
+    start_date = Date.parse "2009-01-01 00:00:00"
+    end_date = Date.parse "2009-02-01 00:00:00"
+    
+    resp = Cityment::API.fetch_range(start_date, end_date) 
+    doc = Cityment::XML::POX::SourceDocument.parse(resp.body)
+    assert(doc.dates.sample > start_date && doc.dates.sample < end_date)
+  end
 end
