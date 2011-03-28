@@ -33,6 +33,12 @@ describe SourceDocument do
 end
 
 describe SourceDir do
+  describe :intialize do
+    it "creates the directory on disk" do
+      srcdir = SourceDir.new('xml/testdir')
+      assert(File.exist?('xml/testdir'))
+    end
+  end
   describe :source_files do
     it "lists the saved source files" do
       srcdir = SourceDir.new 'spec/fixtures/'

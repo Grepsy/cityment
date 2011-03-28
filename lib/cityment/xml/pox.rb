@@ -22,10 +22,11 @@ module Cityment
         attr_reader :pattern
 
         def initialize dir = 'xml/src', pattern =  "*-*.xml"
+          File.exist?(dir) || Dir.mkdir(dir) 
           super dir
           @pattern =  "*-*.xml"
         end
-
+        
         def source_files
           self.class.glob(File.join(path, pattern))
         end
