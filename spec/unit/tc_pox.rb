@@ -19,15 +19,14 @@ describe SourceDocument do
       assert(doc.dates.first < doc.dates[-1])
     end
   end
-  describe :save do
-    it "saves files using a first and last datestamp" do
-      fixture_path = FIXDIR + '/source_document.xml'      
-      doc = SourceDocument.parse(File.read(fixture_path))
-      doc.save
+  describe :filename do
+    it "returns a file name based on first and last item date" do
+      fixture_path = FIXDIR + '/source_document.xml'
+      doc = SourceDocument.parse(File.read(fixture_path))      
       
-      save_path = DIR + '/src/20110316-20110316.xml'
+      filename = '20110316-20110316.xml'
       
-      assert(File.read(fixture_path) == File.read(save_path))
+      assert_equal(doc.filename, filename)
     end
   end
 end
@@ -38,6 +37,19 @@ describe SourceDir do
       srcdir = SourceDir.new('xml/testdir')
       assert(File.exist?('xml/testdir'))
     end
+  end
+  describe :save do
+    it "saves files using a first and last datestamp" do
+      fixture_path = FIXDIR + '/source_document.xml'      
+      doc = SourceDocument.parse(File.read(fixture_path))
+
+      save_dir = SourceDir.new('xml/testdir')
+      save_path = DIR + '/testdir/20110316-20110316.xml'
+      
+      save_dir.save(doc)
+      
+      assert(File.read(fixture_path) == File.read(save_path))
+    end    
   end
   describe :source_files do
     it "lists the saved source files" do
@@ -51,9 +63,5 @@ describe SourceDir do
       fixdates = [Date.parse('20110316'), Date.parse('20110317')]
       assert(srcdir.saved_dates[0] == fixdates, "Unexpected saved dates: #{srcdir.saved_dates}")
     end
-    #it "sorts by start of date range" do
-    #  srcdir = SourceDir.new 'spec/fixtures/'
-    #  
-    #end
   end
 end

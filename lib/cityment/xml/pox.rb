@@ -11,10 +11,9 @@ module Cityment
           end.sort!
           #return []
         end
-
-        def save
-          File.exist?(DIR + '/src') || Dir.mkdir(DIR + '/src') 
-          super 'src/' + dates[0].stamp + '-' + dates[-1].stamp + '.xml'
+        
+        def filename
+          dates[0].stamp + '-' + dates[-1].stamp + '.xml'
         end
       end
       
@@ -25,6 +24,14 @@ module Cityment
           File.exist?(dir) || Dir.mkdir(dir) 
           super dir
           @pattern =  "*-*.xml"
+        end
+        
+        def save srcdoc
+          Dir.chdir(self.path) do
+            File.open(srcdoc.filename, 'w') do |f|
+              f.puts srcdoc.to_xml
+            end
+          end
         end
         
         def source_files
