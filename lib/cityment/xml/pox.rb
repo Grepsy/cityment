@@ -1,4 +1,5 @@
 require 'cityment/xml'
+require 'cityment/datetime'
 
 module Cityment
   module XML
@@ -28,10 +29,10 @@ module Cityment
       class SourceDir < Dir
         attr_reader :pattern
 
-        def initialize dir = 'xml/src', pattern =  "*-*.xml"
+        def initialize dir = 'xml/src', pattern = "*-*"
           File.exist?(dir) || Dir.mkdir(dir) 
           super dir
-          @pattern =  "*-*.xml"
+          @pattern =  pattern
         end
         
         def save srcdoc
@@ -48,8 +49,8 @@ module Cityment
 
         def saved_dates
          source_files.map do |f|
-            m = f.match(/(\d{8})-(\d{8})/)
-            [Date.parse(m[1]), Date.parse(m[2])]
+            m = f.match(/(\d{14})-(\d{14})/)
+            [DateTime.parse(m[1]), DateTime.parse(m[2])]
           end
         end
       end

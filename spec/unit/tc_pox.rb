@@ -3,12 +3,15 @@ require 'cityment/xml/pox'
 
 include Cityment::XML::POX
 
+FIXDIR = 'spec/fixtures'
+
 describe SourceDocument do
   
   describe :parse do
     it "automatically parses file when only path is given" do
       doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
-      assert_equal(doc.filename, '20110316-20110316.xml')
+      
+      assert_equal(doc.filename, '20110316115112-20110316185937.xml')
     end
   end
   describe :dates do
@@ -27,7 +30,7 @@ describe SourceDocument do
     it "returns a file name based on first and last item date" do
       doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
       
-      filename = '20110316-20110316.xml'
+      filename = '20110316115112-20110316185937.xml'
       
       assert_equal(doc.filename, filename)
     end
@@ -43,11 +46,11 @@ describe SourceDir do
   end
   describe :save do
     it "saves files using a first and last datestamp" do
-      fixture_path = FIXDIR + '/source_document.xml'      
-      doc = SourceDocument.parse(File.read(fixture_path))
+      fixture_path = (FIXDIR + '/source_document.xml')
+      doc = SourceDocument.parse(fixture_path)
 
       save_dir = SourceDir.new('xml/testdir')
-      save_path = DIR + '/testdir/20110316-20110316.xml'
+      save_path = 'xml/testdir/20110316115112-20110316185937.xml'
       
       save_dir.save(doc)
       
@@ -56,14 +59,20 @@ describe SourceDir do
   end
   describe :source_files do
     it "lists the saved source files" do
-      srcdir = SourceDir.new 'spec/fixtures/'
-      assert(srcdir.source_files.include? "spec/fixtures/20110316-20110317.xml")
+      srcdir = SourceDir.new 'xml/testdir'
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+      srcdir.save(doc)
+      
+      assert(srcdir.source_files.include? 'xml/testdir/20110316115112-20110316185937.xml')
     end
   end
   describe :saved_dates do
     it "lists date ranges of saved files" do
-      srcdir = SourceDir.new 'spec/fixtures/'
-      fixdates = [Date.parse('20110316'), Date.parse('20110317')]
+      srcdir = SourceDir.new 'xml/testdir'
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+      srcdir.save(doc)
+      
+      fixdates = [DateTime.parse('20110316115112'), DateTime.parse('20110316185937')]
       assert(srcdir.saved_dates[0] == fixdates, "Unexpected saved dates: #{srcdir.saved_dates}")
     end
   end
