@@ -76,4 +76,11 @@ describe SourceDir do
       assert(srcdir.saved_dates[0] == fixdates, "Unexpected saved dates: #{srcdir.saved_dates}")
     end
   end
+  describe :delete do
+    it "self destructs" do
+      srcdir = SourceDir.new 'xml/testdir'
+      srcdir.delete
+      refute(FileTest.exist? 'xml/testdir')
+    end
+  end
 end

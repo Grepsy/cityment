@@ -1,5 +1,6 @@
 require 'cityment/xml'
 require 'cityment/datetime'
+require 'fileutils'
 
 module Cityment
   module XML
@@ -52,6 +53,10 @@ module Cityment
             m = f.match(/(\d{14})-(\d{14})/)
             [DateTime.parse(m[1]), DateTime.parse(m[2])]
           end
+        end
+        
+        def delete
+          p FileUtils.rm_rf(self.path)
         end
       end
       
