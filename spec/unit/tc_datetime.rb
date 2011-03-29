@@ -11,7 +11,7 @@ describe DateTime do
   describe :stamp do
     it "returns a date stamp" do
       dt = DateTime.parse("2009-01-01T13:00:00+00:00")
-      assert_equal(dt.stamp, '20090101')
+      assert_equal(dt.stamp, '20090101130000')
     end
   end
 end

@@ -6,7 +6,7 @@ class DateTime
     self.strftime(format)
   end
   def stamp
-    format ="%Y%m%d"
+    format ="%Y%m%d%H%M%S"
     self.strftime(format)
   end
 end
