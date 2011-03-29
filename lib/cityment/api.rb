@@ -16,8 +16,8 @@ module Cityment
     
     def API.fetch_range startdt, enddt
       
-      startdt = DateTime.parse(startdt) unless startdt.kind_of?(DateTime)
-      enddt = DateTime.parse(enddt) unless enddt.kind_of?(DateTime)
+      startdt = startdt.to_datetime unless startdt.kind_of?(DateTime)
+      enddt = enddt.to_datetime unless enddt.kind_of?(DateTime)
       
       fetch :betweena => startdt.at5_api_format, :betweenb => enddt.at5_api_format
     end

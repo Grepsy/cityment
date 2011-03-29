@@ -15,3 +15,12 @@ describe DateTime do
     end
   end
 end
+
+describe String do
+  describe :to_datetime do
+    it "parses the string to a DateTime object" do
+     str = '2009-01-01'
+     assert(str.to_datetime.kind_of? DateTime) 
+    end
+  end
+end
