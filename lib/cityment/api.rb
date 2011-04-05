@@ -14,12 +14,13 @@ module Cityment
       resp = ENDPOINT.get :params => req_params
     end
     
-    def API.fetch_range startdt, enddt
+    def API.fetch_range date_range
       
-      startdt = startdt.to_datetime unless startdt.kind_of?(DateTime)
-      enddt = enddt.to_datetime unless enddt.kind_of?(DateTime)
+      startdt = date_range.first.at5_api_format
+      enddt = date_range.last.at5_api_format
       
-      fetch :betweena => startdt.at5_api_format, :betweenb => enddt.at5_api_format
+      fetch :betweena => startdt, :betweenb => enddt
+      
     end
         
   end
