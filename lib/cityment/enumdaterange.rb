@@ -15,19 +15,19 @@ module Cityment
       end
     end
 
-    # def each_month
-    #   if block_given?
-    #     self.each_year do |range|
-    #       grouped_dates = range.group_by {|date| date.month}
-    # 
-    #       grouped_dates.each_value do |dates|
-    #         yield (dates[0]..dates[-1])
-    #       end
-    #     end
-    #   else
-    #     self.enum_for(:each_month)
-    #   end
-    # end
+    def each_month
+      if block_given?
+        self.each_year do |range|
+          grouped_dates = range.group_by {|date| date.month}
+    
+          grouped_dates.each_value do |dates|
+            yield (dates[0]..dates[-1])
+          end
+        end
+      else
+        self.enum_for(:each_month)
+      end
+    end
     
   end
 end
