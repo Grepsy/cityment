@@ -16,8 +16,8 @@ module Cityment
     
     def API.fetch_range date_range
       
-      startdt = date_range.first.at5_api_format
-      enddt = date_range.last.at5_api_format
+      startdt = date_range.min.to_datetime.at5_api_format
+      enddt = date_range.max.to_datetime.at5_api_format
       
       fetch :betweena => startdt, :betweenb => enddt
       
