@@ -1,11 +1,11 @@
 require 'date'
 
 module Cityment
-  module EnumDateRange  
-    def EnumDateRange.complete_range
-      (Date.parse('2007-01-01')...Date.today).extend EnumDateRange
+  module DateRange  
+    def DateRange.complete_range
+      (Date.parse('2007-01-01')...Date.today).extend DateRange
     end
-  
+
     def each_year
       years = []
       if block_given?    

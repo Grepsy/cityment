@@ -1,16 +1,16 @@
 require 'minitest/autorun'
-require 'cityment/enumdaterange'
+require 'cityment/daterange'
 
 include Cityment
 
-describe EnumDateRange do
+describe DateRange do
   describe :complete_range do
     it 'returns a range between 2007-01-01 and today' do
-      range = EnumDateRange.complete_range
+      range = DateRange.complete_range
       assert_equal(range.min, Date.parse('2007-01-01'))
     end
-    it 'extends the range with EnumDateRange module' do
-      range = EnumDateRange.complete_range
+    it 'extends the range with DateRange module' do
+      range = DateRange.complete_range
       assert(range.respond_to? :each_month)
     end
   end
@@ -20,7 +20,7 @@ describe EnumDateRange do
       last = Date.parse('2011-01-01')
       complete_range = first...last
       
-      complete_range.extend EnumDateRange
+      complete_range.extend DateRange
       sub_ranges = complete_range.each_year.to_a
       
       assert_equal(sub_ranges[0].max, Date.parse('2009-12-31'))
@@ -33,7 +33,7 @@ describe EnumDateRange do
       last = Date.parse('2011-01-01')
       complete_range = first...last
       
-      complete_range.extend EnumDateRange
+      complete_range.extend DateRange
       sub_ranges = complete_range.each_month.to_a
       
       assert_equal(sub_ranges.count, 24)
@@ -45,7 +45,7 @@ describe EnumDateRange do
   #     last = Date.parse('2011-01-01')
   #     complete_range = first...last
   #   
-  #     complete_range.extend EnumDateRange
+  #     complete_range.extend DateRange
   #     complete_range = 
   #   end
   # end
