@@ -7,7 +7,7 @@ module Cityment
       class SourceDir < Dir              
         attr_reader :pattern
         
-        def initialize root, pattern = "*-*"
+        def initialize root, pattern = "**/*-*.xml"
           File.exist?(root) || FileUtils.mkpath(root)
           super root
           @pattern = pattern

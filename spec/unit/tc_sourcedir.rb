@@ -19,14 +19,14 @@ describe SourceDir do
     end
   end
 
- # describe :source_files do
- #   it "lists the saved source files" do
- #     doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
- #     TSTDIR.save(doc)
- #     
- #     assert(srcdir.source_files.include? 'xml/testdir/20110316115112-20110316185937.xml')
- #   end
- # end
+ describe :source_files do
+   it "lists the saved source files" do
+     doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+     TSTDIR.save(doc)
+     
+     assert(TSTDIR.source_files.count <= 1, "#{TSTDIR.source_files.count} files found")
+   end
+ end
   # describe :saved_dates do
   #   it "lists date ranges of saved files" do
   #     srcdir = SourceDir.new 'xml/testdir'
