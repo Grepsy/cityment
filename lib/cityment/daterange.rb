@@ -44,6 +44,5 @@ module Cityment
       end
       months
     end
-    
   end
 end
