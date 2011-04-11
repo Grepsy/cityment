@@ -6,6 +6,17 @@ module Cityment
       (Date.parse('2007-01-01')...Date.today).extend DateRange
     end
 
+    def crawl
+      request_range = self
+      
+      while request_range.last > self.first
+        fetched_range = yield request_range
+        request_range = self.first...fetched_range.first
+      end
+      
+      self
+    end
+
     def each_year
       years = []
       if block_given?    

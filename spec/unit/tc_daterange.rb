@@ -39,14 +39,25 @@ describe DateRange do
       assert_equal(sub_ranges.count, 24)
     end
   end
-  # describe :shorten do
-  #   it "sets the last date in range" do
-  #     first = Date.parse('2009-01-01')
-  #     last = Date.parse('2011-01-01')
-  #     complete_range = first...last
-  #   
-  #     complete_range.extend DateRange
-  #     complete_range = 
-  #   end
-  # end
+  describe :crawl do
+    it "yields next range according to returned fetched range" do
+      first = Date.parse('2009-01-01')
+      last = Date.parse('2009-04-01')
+      range = (first...last).extend DateRange
+      
+      months = range.each_month{|r| r}.reverse
+      requests_made = []
+      requests_made_fixture = [Date.parse('2009-01-01')...Date.parse('2009-04-01'),
+                               Date.parse('2009-01-01')...Date.parse('2009-03-01'),
+                               Date.parse('2009-01-01')...Date.parse('2009-02-01')]
+      
+      range.crawl do |request_range|
+        request_count = requests_made.count
+        requests_made << request_range
+        fetched_range = months[request_count]
+      end 
+      
+      assert_equal(requests_made, requests_made_fixture)       
+    end
+  end
 end
