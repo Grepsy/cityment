@@ -88,7 +88,20 @@ describe DateRange do
       end
       
       assert_equal(requests_made_fixture, requests_made)  
+    end 
+  end
+  describe :umbrella? do
+    it "returns true if other range is within self" do
+      range = (Date.parse('2009-01-01')...Date.parse('2009-04-01')).extend DateRange    
+      other = Date.parse('2009-02-01')...Date.parse('2009-03-01')
+      
+      assert(range.umbrella?(other) == true)
     end
-    
+    it "returns false if other range is not within self" do
+      range = (Date.parse('2009-02-01')...Date.parse('2009-03-01')).extend DateRange
+      other = Date.parse('2009-01-01')...Date.parse('2009-04-01')
+
+      assert(range.umbrella?(other) == false)      
+    end
   end
 end

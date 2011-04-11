@@ -16,6 +16,14 @@ module Cityment
       
       self
     end
+    
+    def umbrella? other
+      if self.min <= other.min && self.max >= other.max
+        return true
+      else
+        return false
+      end
+    end
 
     def each_year
       years = []
