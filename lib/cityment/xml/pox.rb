@@ -22,6 +22,10 @@ module Cityment
           #return []
         end
         
+        def date_range
+          self.dates[0]..self.dates[-1]
+        end
+        
         def filename
           dates[0].stamp + '-' + dates[-1].stamp + '.xml'
         end
