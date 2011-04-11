@@ -19,24 +19,24 @@ describe SourceDir do
     end
   end
 
- describe :source_files do
+  describe :source_files do
    it "lists the saved source files" do
      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
      TSTDIR.save(doc)
-     
+   
      assert(TSTDIR.source_files.count <= 1, "#{TSTDIR.source_files.count} files found")
    end
- end
-  # describe :saved_dates do
-  #   it "lists date ranges of saved files" do
-  #     srcdir = SourceDir.new 'xml/testdir'
-  #     doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
-  #     srcdir.save(doc)
-  #     
-  #     fixdates = [DateTime.parse('20110316115112'), DateTime.parse('20110316185937')]
-  #     assert(srcdir.saved_dates[0] == fixdates, "Unexpected saved dates: #{srcdir.saved_dates}")
-  #   end
-  # end
+  end
+  
+  describe :saved_dates do
+    it "lists date ranges of saved files" do
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+      TSTDIR.save(doc)
+    
+      fix_range = DateTime.parse('20110316115112')..DateTime.parse('20110316185937')
+      assert(TSTDIR.saved_dates.include? fix_range)
+    end
+  end
   
   after do
     FileUtils.rm_rf TSTDIR

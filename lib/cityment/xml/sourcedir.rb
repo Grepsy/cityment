@@ -33,7 +33,7 @@ module Cityment
         def saved_dates
          source_files.map do |f|
             m = f.match(/(\d{14})-(\d{14})/)
-            [DateTime.parse(m[1]), DateTime.parse(m[2])]
+            DateTime.parse(m[1])..DateTime.parse(m[2])
           end
         end
       end
