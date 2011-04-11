@@ -22,7 +22,7 @@ module Cityment
       if block_given?    
         grouped_dates = self.group_by {|date| date.year}
         grouped_dates.each_value do |dates|
-          years << (yield (dates[0]..dates[-1]))
+          years << (yield (dates[0]..dates[-1]).extend DateRange)
         end
       else
         return self.enum_for(:each_year)
@@ -36,7 +36,7 @@ module Cityment
         self.each_year do |range|
           grouped_dates = range.group_by {|date| date.month}
           grouped_dates.each_value do |dates|
-            months << (yield (dates[0]..dates[-1]))
+            months << (yield (dates[0]..dates[-1]).extend DateRange)
           end
         end
       else

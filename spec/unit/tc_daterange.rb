@@ -31,6 +31,11 @@ describe DateRange do
       assert_equal(sub_ranges[0].max, Date.parse('2009-12-31'))
       assert_equal(sub_ranges[1].min, Date.parse('2010-01-01'))
     end
+    it "extends yielded range with DateRange mixin" do
+      range = DateRange.complete_range(Date.parse('2011-01-01'))
+      sub_ranges = range.each_year.to_a
+      assert(sub_ranges.sample.respond_to? :crawl)      
+    end
   end
   describe :each_month do
     it "yields sub-ranges by month" do
@@ -42,6 +47,11 @@ describe DateRange do
       sub_ranges = complete_range.each_month.to_a
       
       assert_equal(sub_ranges.count, 24)
+    end
+    it "extends yielded range with DateRange mixin" do
+      range = DateRange.complete_range(Date.parse('2011-01-01'))
+      sub_ranges = range.each_month.to_a
+      assert(sub_ranges.sample.respond_to? :crawl)      
     end
   end
   describe :crawl do
