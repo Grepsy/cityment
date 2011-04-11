@@ -36,6 +36,15 @@ describe SourceDir do
       fix_range = DateTime.parse('20110316115112')..DateTime.parse('20110316185937')
       assert(TSTDIR.saved_dates.include? fix_range)
     end
+    it "filters ranges according 'within_range' argument" do
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+      TSTDIR.save(doc)
+      
+      fix_range = DateTime.parse('20110316115112')..DateTime.parse('20110316185937')
+      within_range = Date.parse('2010-01-01')...Date.parse('2010-04-01')
+      
+      refute(TSTDIR.saved_dates(within_range).include? fix_range)
+    end
   end
   
   after do

@@ -30,11 +30,19 @@ module Cityment
           self.class.glob(File.join(path, pattern))
         end
         
-        def saved_dates
-         source_files.map do |f|
+        def saved_dates within = nil
+         
+         ranges = source_files.map do |f|
             m = f.match(/(\d{14})-(\d{14})/)
             DateTime.parse(m[1])..DateTime.parse(m[2])
           end
+        
+          if within.respond_to? :umbrella?
+            ranges.select {|range| within.umbrella? range}
+          else
+            ranges
+          end
+          
         end
       end
       
