@@ -1,10 +1,10 @@
-require 'cityment/xml'
 require 'cityment/datetime'
+require 'nokogiri'
 
 module Cityment
   module XML
 
-    class SourceDocument < XML::Document
+    class SourceDocument < Nokogiri::XML::Document
   
       def SourceDocument.parse string_or_io
         if FileTest.file?(string_or_io)
