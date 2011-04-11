@@ -2,8 +2,8 @@ require 'date'
 
 module Cityment
   module DateRange  
-    def DateRange.complete_range
-      (Date.parse('2007-01-01')...Date.today).extend DateRange
+    def DateRange.complete_range start_date = Date.parse('2007-01-01')
+      (start_date...Date.today).extend DateRange
     end
 
     def crawl

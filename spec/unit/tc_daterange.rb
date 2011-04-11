@@ -13,6 +13,11 @@ describe DateRange do
       range = DateRange.complete_range
       assert(range.respond_to? :each_month)
     end
+    it 'sets a custom start date' do
+      start_date = Date.parse('2011-01-01')
+      range = DateRange.complete_range(start_date)
+      assert_equal(range.first, start_date)
+    end
   end
   describe :each_year do
     it "it yields sub-ranges by year" do
