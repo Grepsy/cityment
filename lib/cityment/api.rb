@@ -1,14 +1,14 @@
 require 'rufus/verbs'
 require 'cityment/config'
 require 'cityment/datetime'
-require 'nokogiri'
+require 'cityment/xml/pox'
 
 module Cityment
   module API
     
     ENDPOINT = Rufus::Verbs::EndPoint.new(Cityments::Config.load('endpoint'))
     
-    PARSERS = {'application/xhtml+xml; charset=utf-8' => Nokogiri::XML::Document}
+    PARSERS = {'application/xhtml+xml; charset=utf-8' => Cityment::XML::POX::SourceDocument}
        
     def API.fetch params = {}
       def_params = ENDPOINT.opts[:params]
