@@ -1,38 +1,44 @@
+require 'fileutils'
+
 module Cityment
   module XML
-    
-      class SourceDir < Dir
+      ENV['DATADIR'] ||= 'data/cityment'
+            
+      class SourceDir < Dir              
         attr_reader :pattern
-
-        def initialize dir = 'xml/src', pattern = "*-*"
-          File.exist?(dir) || Dir.mkdir(dir) 
-          super dir
-          @pattern =  pattern
+        
+        def initialize root, pattern = "*-*"
+          File.exist?(root) || FileUtils.mkpath(root)
+          super root
+          @pattern = pattern
         end
         
         def save srcdoc
-          Dir.chdir(self.path) do
+          save_date = srcdoc.date_range.first
+          save_dir = self.path + '/' + save_date.year.to_s + '/' + save_date.month.to_s
+          File.exist?(save_dir) || FileUtils.mkpath(save_dir)
+
+          Dir.chdir(save_dir) do
             File.open(srcdoc.filename, 'w') do |f|
               f.puts srcdoc.to_xml
             end
           end
+          
         end
         
         def source_files
           self.class.glob(File.join(path, pattern))
         end
-
+        
         def saved_dates
          source_files.map do |f|
             m = f.match(/(\d{14})-(\d{14})/)
             [DateTime.parse(m[1]), DateTime.parse(m[2])]
           end
         end
-        
-        def delete
-          p FileUtils.rm_rf(self.path)
-        end
       end
+      
+      SRCDIR = SourceDir.new ENV['DATADIR'] + '/src'
       
   end # XML
 end # Cityments
