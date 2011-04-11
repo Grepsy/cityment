@@ -74,5 +74,21 @@ describe DateRange do
       
       assert_equal(requests_made, requests_made_fixture)       
     end
+    it "yields only one range when exact range is returned" do
+      first = Date.parse('2009-01-01')
+      last = Date.parse('2009-04-01')
+      range = (first...last).extend DateRange
+      
+      requests_made = []
+      requests_made_fixture = [Date.parse('2009-01-01')...Date.parse('2009-04-01')]
+      
+      range.crawl do |request_range|
+        requests_made << request_range
+        request_range
+      end
+      
+      assert_equal(requests_made_fixture, requests_made)  
+    end
+    
   end
 end

@@ -44,9 +44,6 @@ module Cityment
       end
       months
     end
-  
-    def shorten last
-      return self
-    end  
+    
   end
 end
