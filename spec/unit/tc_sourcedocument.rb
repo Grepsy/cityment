@@ -1,11 +1,23 @@
+require 'fileutils'
 require 'minitest/autorun'
 require 'cityment/xml/sourcedocument'
 
 include Cityment::XML
 
 FIXDIR = 'spec/fixtures'
+ENV['DATADIR'] ||= 'data/cityment'
+TSTDIR = ENV['DATADIR'] + '/tstsrc'
 
 describe SourceDocument do
+  
+  describe :save do
+    it "creates a year/month folder containing the file" do
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+      SourceDocument.save(doc, TSTDIR)
+      path = TSTDIR + '/2011/3/20110316115112-20110316185937.xml'
+      assert(File.exist?(path), "File #{path} doesn't exist")
+    end
+  end
   
   describe :parse do
     it "automatically parses file when only path is given" do
@@ -44,5 +56,9 @@ describe SourceDocument do
       
       assert_equal(doc.filename, filename)
     end
+  end
+  
+  after do
+    FileUtils.rm_rf TSTDIR
   end
 end

@@ -1,11 +1,28 @@
+require 'fileutils'
 require 'cityment/datetime'
 require 'nokogiri'
 
 module Cityment
   module XML
-
+    
+    ENV['DATADIR'] ||= 'data/cityment'
+    SRCDIR = ENV['DATADIR'] + '/src'
+    
     class SourceDocument < Nokogiri::XML::Document
-  
+      
+      def SourceDocument.save srcdoc, srcdir = SRCDIR
+        save_date = srcdoc.date_range.first
+        save_dir = srcdir + '/' + save_date.year.to_s + '/' + save_date.month.to_s
+        File.exist?(save_dir) || FileUtils.mkpath(save_dir)
+       
+        Dir.chdir(save_dir) do
+          File.open(srcdoc.filename, 'w') do |f|
+            f.puts srcdoc.to_xml
+          end
+        end
+         
+      end
+      
       def SourceDocument.parse string_or_io
         if FileTest.file?(string_or_io)
           string_or_io = File.read(string_or_io)
