@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'cityment/api'
-require 'cityment/xml/pox'
+require 'cityment/xml/sourcedocument'
 require 'tempfile'
 require 'cityment/datetime'
 

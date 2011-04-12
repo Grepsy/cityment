@@ -48,18 +48,6 @@ describe SourceDir do
     end
   end
   
-  describe :date_gaps do
-    it "returns complete range when no saved files are found" do
-      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
-      TSTDIR.save(doc)
-      
-      fix_range = DateTime.parse('20110316115112')..DateTime.parse('20110316185937')
-      within_range = (Date.parse('2010-01-01')...Date.parse('2010-04-01')).extend Cityment::DateRange
-      
-      assert_equal(within_range, TSTDIR.date_gaps(within_range))
-    end
-  end
-  
   after do
     FileUtils.rm_rf TSTDIR
   end

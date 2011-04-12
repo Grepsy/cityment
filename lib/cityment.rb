@@ -6,7 +6,14 @@ require 'cityment/daterange'
 module Cityment
   
   def crawl
-    dates = (Date.parse('2011-03-01')...Date.today).extend DateRange
+    
+    last_saved_date = Date.parse('2007-01-01')
+    
+    if XML::SRCDIR.saved_dates.last != nil
+      last_saved_date = XML::SRCDIR.saved_dates.last.max
+    end
+    
+    dates = DateRange.complete_range last_saved_date
     months = dates.each_month
     
     months.each do |month|
@@ -16,7 +23,7 @@ module Cityment
         doc = API.fetch_range(request_range).body
         puts "Fetched #{doc.dates.count} items, within range: #{request_range}"
         break if doc.dates.count == 0
-        XML::SourceDocument.save(doc)
+        XML::SRCDIR.save(doc)
         fetched_range = doc.date_range
       end
       

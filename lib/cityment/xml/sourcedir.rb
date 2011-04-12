@@ -45,17 +45,6 @@ module Cityment
           
         end
         
-        def date_gaps within
-          
-          saved_dates = self.saved_dates(within)
-          
-          if saved_dates != nil
-            return within
-          else
-            return within
-          end
-          
-        end
       end
       
       SRCDIR = SourceDir.new ENV['DATADIR'] + '/src'
