@@ -10,7 +10,8 @@ module Cityment
     last_saved_date = Date.parse('2007-01-01')
     
     if XML::SRCDIR.saved_dates.last != nil
-      last_saved_date = XML::SRCDIR.saved_dates.last.max
+      saved_dates = XML::SRCDIR.saved_dates.sort_by {|range| range.min }
+      last_saved_date = saved_dates.last.max
     end
     
     dates = DateRange.complete_range last_saved_date
