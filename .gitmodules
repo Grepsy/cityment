@@ -1,0 +1,3 @@
+[submodule "vnd/rufus-verbs"]
+	path = vnd/rufus-verbs
+	url = git://github.com/Dirklectisch/rufus-verbs.git
