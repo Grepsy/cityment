@@ -45,4 +45,21 @@ describe SourceDocument do
       assert_equal(doc.filename, filename)
     end
   end
+  describe :item_to_hash do
+    it 'it converts items to a hash' do
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+          
+      assert_equal(
+        'http://www.at5.nl/uploads/media/2011/02/28/4cac455e97248.jpg',
+         doc.item_to_hash[:images][:image][:url]
+         )
+    end
+  end
+  describe :item do
+    it 'returns a collection of items' do
+       doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+       
+       assert_equal(21, doc.items.count)
+    end
+  end
 end
