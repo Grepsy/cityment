@@ -21,20 +21,30 @@ module Cityment
       end
     end
     
-    def encode item_hash
-      encoder.encode(item_hash) # {"title" => "...", "date" => "..."}
+    def encode body, head = {}
+      head.merge! body
+      encoder.encode(head) # {"title" => "...", "date" => "..."}
     end
     
     def uuid
-      endpoint.get :base => '', :resource => '_uuid'
+      resp = endpoint.get :base => '', :resource => '_uuid'
+      resp = endpoint.body.to_s unless endpoint.opts[:dry_run] == true
+      resp
     end
     
-    def print item_hash, file = 'spec/fixtures/item.json'
-      item_json = encode(item_hash)
-      File.open(file, 'w') do |f|
-        f.puts item_json
-      end
-    end
+    # def create item
+    #   req = encode(item, {:_id => uuid})
+    #   endpoint.post(:data => req)
+    # end
+    # 
+    # def print item_hash, file = 'spec/fixtures/item.json'
+    # 
+    #   body = item_hash
+    #   item_json = encode(body, head)
+    #   File.open(file, 'w') do |f|
+    #     f.puts item_json
+    #   end
+    # end
     
     
     
