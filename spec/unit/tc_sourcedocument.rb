@@ -54,6 +54,11 @@ describe SourceDocument do
          doc.item_to_hash[:images][:image][:url]
          )
     end
+    it 'filters nokogiri text nodes' do
+      doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
+          
+      refute(doc.item_to_hash[:text])
+    end
   end
   describe :item do
     it 'returns a collection of items' do

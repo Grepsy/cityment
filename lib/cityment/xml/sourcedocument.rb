@@ -44,7 +44,14 @@ module Cityment
         
         item_hsh = item_src.children.inject({}) do |result, element|
           if element.children.count <= 1
-            result[element.name.to_sym] = element.inner_text 
+            
+            case name = element.name.to_sym
+            when :text
+              result
+            else
+              result[element.name.to_sym] = element.inner_text 
+            end
+            
           else
             result[element.name.to_sym] = item_to_hash(element)
           end
