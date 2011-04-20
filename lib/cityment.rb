@@ -2,6 +2,7 @@ require 'cityment/api'
 require 'cityment/xml'
 require 'cityment/datetime'
 require 'cityment/daterange'
+require 'cityment/couchdb'
 
 module Cityment
   

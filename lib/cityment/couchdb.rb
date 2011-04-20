@@ -13,6 +13,8 @@ module Cityment
                     :port => '5984',
                     :base => 'cityment')
       
+      @endpoint.parsers['application/json'] = Yajl::Parser
+      
       if debug == true
         @encoder = Yajl::Encoder.new :pretty => true
         @endpoint.opts[:dry_run] = true
@@ -27,16 +29,16 @@ module Cityment
     end
     
     def uuid
-      resp = endpoint.get :base => '', :resource => '_uuid'
-      resp = endpoint.body.to_s unless endpoint.opts[:dry_run] == true
+      resp = endpoint.get :base => '', :resource => '_uuids'
+      resp = resp[:uuids].to_s unless endpoint.opts[:dry_run] == true
       resp
     end
     
-    # def create item
-    #   req = encode(item, {:_id => uuid})
-    #   endpoint.post(:data => req)
-    # end
-    # 
+    def create item
+      req = encode(item, {:_id => uuid})
+      endpoint.post(:headers => {'content-type' => 'application/json'},  :data => req)
+    end
+    
     # def print item_hash, file = 'spec/fixtures/item.json'
     # 
     #   body = item_hash
@@ -44,11 +46,8 @@ module Cityment
     #   File.open(file, 'w') do |f|
     #     f.puts item_json
     #   end
-    # end
-    
-    
-    
-  end
+    # end    
+  end # CouchDB
   
   DB = CouchDB.new
   
