@@ -42,14 +42,29 @@ module Cityment
       
       def item_to_hash item_src = self.xpath('/result/items/item[1]')
         
+        field_type = {}
+        field_type[:Integer] = [:height, :width]
+        field_type[:DateTime] = [:created_at]
+
+        
         item_hsh = item_src.children.inject({}) do |result, element|
           if element.children.count <= 1
             
-            case name = element.name.to_sym
-            when :text
+            name = element.name.to_sym
+            
+            content = case 
+            when field_type[:Integer].include?(name)
+              element.inner_text.to_i
+            when field_type[:DateTime].include?(name)
+              DateTime.parse(element.inner_text)
+            else
+              element.inner_text 
+            end
+            
+            if name == :text
               result
             else
-              result[element.name.to_sym] = element.inner_text 
+              result[name] = content
             end
             
           else
