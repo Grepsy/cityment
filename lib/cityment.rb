@@ -33,24 +33,23 @@ module Cityment
     
   end
   
-  def process
-    
-    # class CouchDB
-    #   def create
-    #     return 'uuid'
-    #   end
-    # end
-    # 
-    # db = CouchDB.new
+  def insert
     
     XML::SRCDIR.source_files.each do |file|
       
       doc = XML::SourceDocument.parse(file)
+      puts "Starting to insert #{doc.date_range} into database"
       
-      doc.items.each do |doc|
-        database.create doc
-      end 
-           
+      doc.items.each do |item|
+        resp = DB.create(item)
+        if resp.code.to_i == 201
+          puts "Inserted item created at #{item[:created_at]} into database"
+        else
+          puts "HTTP Response Code #{resp.code}"
+          puts "Failed to insert item created at #{item[:created_at]} into database"
+        end
+      end
+         
     end
     
   end
