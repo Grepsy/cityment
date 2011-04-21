@@ -56,7 +56,8 @@ module Cityment
             when field_type[:Integer].include?(name)
               element.inner_text.to_i
             when field_type[:DateTime].include?(name)
-              DateTime.parse(element.inner_text)
+              dt = DateTime.parse(element.inner_text)
+              dt.json
             else
               element.inner_text 
             end

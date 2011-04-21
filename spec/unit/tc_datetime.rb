@@ -14,6 +14,12 @@ describe DateTime do
       assert_equal(dt.stamp, '20090101130000')
     end
   end
+  describe :json do
+    it "transforms datetime in a json friendly format" do
+      dt = DateTime.parse("2009-05-01T13:11:22+00:00")
+      assert_equal([2009, 5, 1, 13, 11, 22], dt.json)
+    end
+  end
 end
 
 describe String do

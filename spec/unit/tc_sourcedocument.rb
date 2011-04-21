@@ -69,7 +69,7 @@ describe SourceDocument do
       doc = SourceDocument.parse(FIXDIR + '/source_document.xml')
       item = doc.xpath('/result/items/item[1]')
       
-      assert_kind_of(DateTime, doc.item_to_hash(item)[:created_at])
+      assert_kind_of(Array, doc.item_to_hash(item)[:created_at])
     end
   end
   describe :item do
