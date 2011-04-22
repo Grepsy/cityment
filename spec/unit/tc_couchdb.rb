@@ -27,6 +27,17 @@ describe CouchDB do
       
       assert_equal '/_uuids', req.path
     end
+    it 'requests application/json media type' do
+      db = CouchDB.new true
+      req = db.uuid
+      
+      headers = req.each_header.inject({}) do |r, e|
+        r[e[0]] = e[1]
+        r
+      end
+      
+      assert_equal('application/json', headers['accept'])
+    end
   end
   describe :create do
     it 'sends a post request to the server' do
@@ -48,4 +59,12 @@ describe CouchDB do
       assert_equal("application/json", req.content_type)
     end
   end
+  # Need to mock the DB to get this done
+  # describe :saved_dates do
+  #   it "returns a date range" do
+  #     db = CouchDB.new true
+  #     
+  #     assert_equal
+  #   end
+  # end
 end
