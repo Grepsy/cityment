@@ -1,28 +1,81 @@
+html, body {
+  height: 100%;
+}
+
 *, ul {
   margin: 0;
   padding: 0;
 }
 
-.main {
+#main {
+  margin-right: 360px;
+  position: relative;
+  background-color: #111;
 }
 
 #main ul {
   position: absolute;
   left: 50%;
+  top: 60px;
 }
 #main ul li {
+  background-color: #666;
   list-style-type: none;
-  height: 38px;
-  background-color: black;
-  margin-bottom: 8px;
+  height: 36px;
+  margin-bottom: 12px;
   position: relative;
+  cursor: pointer;
 }
 #main ul li .label {
   white-space: nowrap;
   position: relative;
-  color: black;
+  color: #222;
   font-size: 30px;
   font-family: Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   padding: 0 6px;
 }
+#main ul li .score {
+  color: #999;
+  opacity: 0;
+  -webkit-transition: opacity .3s linear;
+  -moz-transition: opacity .3s linear;
+  margin: 0 8px;
+}
+#main ul li:hover .score { opacity: 1; }
+
+#main ul li.negative {
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+}
+#main ul li.positive {
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+aside {
+  padding: 30px;
+  border-left: 1px solid #ddd;
+  background-color: #f6f6f6;
+  width: 300px;
+  min-height: 100%;
+  float: right;
+}
+
+h1 {
+  color: #222;
+  line-height: 2em;
+  font-size: 2em;
+  font-family: 'Philosopher', arial, serif;
+}
+
+p {
+  color: #666;
+  line-height: 1.5em;
+  font-family: 'Droid Serif', arial, serif;
+}
+
+.logobox {
+  position: absolute;
+  bottom: 0;
+}
+.logobox img { float: left; clear: left; margin: 10px 0; }
