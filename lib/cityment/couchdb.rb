@@ -1,5 +1,6 @@
 require 'yajl'
 require 'cityment/datetime'
+require 'cityment/daterange'
 require 'rufus/verbs'
 
 module Cityment
@@ -8,12 +9,14 @@ module Cityment
     attr_reader :encoder, :endpoint
     
     def initialize debug = false
+
+      #@endpoint = Rufus::Verbs::EndPoint.new(Cityment::Config.load('couchdb')) 
       
       @endpoint = Rufus::Verbs::EndPoint.new(
-                    :host => 'localhost',
-                    :port => '5984',
-                    :base => 'cityment',
-                    :h => {'accept' => 'application/json'})
+                     :host => 'localhost',
+                     :port => '5984',
+                     :base => 'cityment',
+                     :h => {'accept' => 'application/json'})
       
       @endpoint.parsers['application/json'] = Yajl::Parser
       
@@ -50,7 +53,7 @@ module Cityment
       last = last.body['rows'].last['key']
       last_dt = DateTime.from_json(last)
       
-      range = first_dt..last_dt
+      range = (first_dt..last_dt).extend DateRange
     end
   end # CouchDB
   

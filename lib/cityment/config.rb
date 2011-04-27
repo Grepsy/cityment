@@ -1,14 +1,14 @@
 require 'yajl'
 
-module Cityments
+module Cityment
   module Config
   
     CFGPATH = ENV['APP_ROOT'] + '/config'
     PARSER = Yajl::Parser.new :symbolize_keys => true
   
     def Config.load cfgname
-      file = File.read("#{CFGPATH}/#{cfgname}.json")
-      PARSER.parse(file)
+      json = File.read("#{CFGPATH}/#{cfgname}.json")
+      cfg = PARSER.parse(json)
     end
     
   end # Config

@@ -6,7 +6,7 @@ require 'cityment/xml'
 module Cityment
   module API
     
-    ENDPOINT = Rufus::Verbs::EndPoint.new(Cityments::Config.load('endpoint'))
+    ENDPOINT = Rufus::Verbs::EndPoint.new(Cityment::Config.load('endpoint'))
     
     PARSERS = {'application/xhtml+xml; charset=utf-8' => Cityment::XML::SourceDocument}
        
