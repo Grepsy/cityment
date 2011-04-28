@@ -6,7 +6,7 @@ require 'cityment/couchdb'
 
 module Cityment
   
-  def crawl
+  def Cityment.crawl
     
     last_saved_date = Date.parse('2007-01-01')
     
@@ -33,28 +33,37 @@ module Cityment
     
   end
   
-  def process
+  def Cityment.insert
     
-    # class CouchDB
-    #   def create
-    #     return 'uuid'
-    #   end
-    # end
-    # 
-    # db = CouchDB.new
+    inserted_dates = DB.saved_dates
     
-    XML::SRCDIR.source_files.each do |file|
+    XML::SRCDIR.source_files.each do |file|      
       
       doc = XML::SourceDocument.parse(file)
       
-      doc.items.each do |doc|
-        database.create doc
-      end 
-           
-    end
+      unless doc.date_range.max <= inserted_dates.max     
+        puts "Starting to insert #{doc.date_range} into database"  
+        
+        doc.items.each do |item|         
+          unless DateTime.from_json(item[:created_at]) <= inserted_dates.max
+            resp = DB.create(item)
+            if resp.code.to_i == 201
+              puts "Inserted item created at #{item[:created_at]} into database"
+            else
+              puts "HTTP Response Code #{resp.code}"
+              puts "Failed to insert item created at #{item[:created_at]} into database"
+            end
+          end              
+        end # Each item
+        
+      else
+        puts "Skipped allready inserted file #{doc.date_range}"
+      end
+         
+    end # Each file
+    
+    return inserted_dates.max..DB.saved_dates.max
     
   end
   
-end
-
-include Cityment
+end # Cityment
