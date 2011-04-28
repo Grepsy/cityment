@@ -18,6 +18,11 @@ module Cityment
         @endpoint.put
       end
       
+      if endpoint.get(:id => '/_design/all/_view/by_date').code.to_i == 404
+         view = File.read(File.join(ENV['APP_ROOT'], 'views', 'all.json'))
+         @endpoint.post(:h => {'content-type' => 'application/json'}, :data => view)
+      end
+      
       if debug == true
         @encoder = Yajl::Encoder.new :pretty => true
         @endpoint.opts[:dry_run] = true
@@ -43,15 +48,21 @@ module Cityment
     end
     
     def saved_dates
-      first = endpoint.get(:id => '/_design/all/_view/by_date?limit=1', :h => {'accept' => 'application/json'})
-      first = first.body['rows'].first['key']
-      first_dt = DateTime.from_json(first)
+      begin
+        first = endpoint.get(:id => '/_design/all/_view/by_date?limit=1', :h => {'accept' => 'application/json'})
+        first = first.body['rows'].first['key']
+        first_dt = DateTime.from_json(first)
       
-      last = endpoint.get(:id => '/_design/all/_view/by_date?limit=1&descending=true', :h => {'accept' => 'application/json'})
-      last = last.body['rows'].last['key']
-      last_dt = DateTime.from_json(last)
+        last = endpoint.get(:id => '/_design/all/_view/by_date?limit=1&descending=true', :h => {'accept' => 'application/json'})
+        last = last.body['rows'].last['key']
+        last_dt = DateTime.from_json(last)
       
-      range = (first_dt..last_dt).extend DateRange
+        range = (first_dt..last_dt).extend DateRange
+        return range
+      rescue
+        range = Date.parse('2007-01-01')..Date.parse('2007-01-02')
+        return range
+      end
     end
   end # CouchDB
   
