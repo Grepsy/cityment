@@ -10,13 +10,13 @@ module Cityment
     
     def initialize debug = false
 
-      #@endpoint = Rufus::Verbs::EndPoint.new(Cityment::Config.load('couchdb')) 
+      @endpoint = Rufus::Verbs::EndPoint.new(Cityment::Config.load('couchdb')) 
       
-      @endpoint = Rufus::Verbs::EndPoint.new(
-                     :host => 'localhost',
-                     :port => '5984',
-                     :base => 'cityment',
-                     :h => {'accept' => 'application/json'})
+      # @endpoint = Rufus::Verbs::EndPoint.new(
+      #                :host => 'localhost',
+      #                :port => '5984',
+      #                :base => 'cityment',
+      #                :h => {'accept' => 'application/json'})
       
       @endpoint.parsers['application/json'] = Yajl::Parser
       
