@@ -29,6 +29,7 @@ task :enviroment do
   # Set other paths
   
   ENV['APP_ROOT'] = appdir
+  ENV['CFGPATH'] = File.join(appdir, 'config')
   ENV['DATADIR'] = ENV['APP_ROOT'].to_s + '/data/cityment'
   
   # Load external rake tasks

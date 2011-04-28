@@ -11,14 +11,12 @@ module Cityment
     def initialize debug = false
 
       @endpoint = Rufus::Verbs::EndPoint.new(Cityment::Config.load('couchdb')) 
-      
-      # @endpoint = Rufus::Verbs::EndPoint.new(
-      #                :host => 'localhost',
-      #                :port => '5984',
-      #                :base => 'cityment',
-      #                :h => {'accept' => 'application/json'})
-      
       @endpoint.parsers['application/json'] = Yajl::Parser
+      
+      # Create database if DB doesn't exist
+      if endpoint.get.code.to_i == 404
+        @endpoint.put
+      end
       
       if debug == true
         @encoder = Yajl::Encoder.new :pretty => true
