@@ -7,10 +7,23 @@ html, body {
   padding: 0;
 }
 
+a {
+   -webkit-transition: opacity .2s linear;
+  -moz-transition: opacity .2s linear;
+}
+a:hover {
+  opacity: .6;
+}
+
 #main {
   margin-right: 360px;
-  position: relative;
-  background-color: #111;
+  float: left;
+}
+
+#restart {
+  margin: 4em 0;
+  margin-left: 90px;
+  display: block;
 }
 
 #main ul {
@@ -70,7 +83,7 @@ h1 {
   font-size: 2em;
   font-family: 'Philosopher', arial, serif;
 }
-h1 a {
+a {
   text-decoration: none;
 }
 p {
@@ -81,6 +94,37 @@ p {
 
 .logobox {
   position: absolute;
-  bottom: 100px;
+  bottom: 80px;
 }
 .logobox img { float: left; clear: left; margin: 10px 0; }
+
+.newsitem {
+  margin: 25px;
+  float: left;
+}
+.newsitem .score {
+  display: block;
+  font-size: 3em;
+  line-height: 1em;
+  text-align: right;
+  padding-right: 12px;
+  color: #036;
+  float: left;
+  width: 130px;
+  opacity: 0.7;
+   -webkit-transition: opacity .3s linear;
+  -moz-transition: opacity .3s linear;
+}
+.newsitem:hover .score { opacity: 1; }
+.newsitem h2 {
+  margin: 4px 0;
+}
+.newsitem p {
+  color: #ccc;
+  display: table;
+   -webkit-transition: color .3s linear;
+  -moz-transition: color .3s linear;
+}
+.newsitem:hover p {
+  color: #666;
+}
