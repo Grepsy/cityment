@@ -30,8 +30,8 @@ Cityment.Bars = function() {
     }
   };
 
-  this.clear = function() {
-    list.fadeOut(function() { list.empty(); });
+  this.clear = function(fn) {
+    list.fadeOut(function() { list.empty(); fn; });
   };
 };
 
@@ -52,14 +52,15 @@ function keySort(key) {
 $(document).ready(function() {
   data = new Cityment.Data();
   bars = new Cityment.Bars();
-  
+
   $('#main ul li').live('click', function() {
     var key = $(this).data('key');
     data.view('filter/_view/spatial?key="'+key+'"&include_docs=true', function(data) {
       data.rows.sort(keySort(function(r) { return r.doc.created_at.join(); }));
       console.log(data.rows);
-      bars.clear();
-      $('#newsitem').tmpl(data.rows).appendTo('body');
+      bars.clear(function() {
+        $('#newsitem').tmpl(data.rows).appendTo('main');
+      });
     });
   });
 
