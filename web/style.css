@@ -32,7 +32,7 @@ html, body {
   color: #222;
   font-size: 30px;
   font-family: Helvetica, Arial, sans-serif;
-  text-transform: uppercase;
+  -text-transform: uppercase;
   padding: 0 6px;
 }
 #main ul li .score {

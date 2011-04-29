@@ -1,16 +1,16 @@
 var Cityment = Cityment || {};
 
-Cityment.Bars = function(data) {
-  var SCALE = 12;
+Cityment.Bars = function() {
+  var SCALE = 6;
   var list = $('#main ul');
 
-  this.draw = function() {
+  this.draw = function(data) {
     list.empty();
     for (var i = 0; i < data.length; i++) {
       var bar = $('<li>'),
-          label = $('<span class="label">').text(data[i].area).appendTo(bar),
-          score = $('<span class="score">').text(data[i].score),
-          width = data[i].score * SCALE;
+          label = $('<span class="label">').text(data[i].key).appendTo(bar),
+          score = $('<span class="score">').text(Math.round(data[i].value*100)/100),
+          width = data[i].value * SCALE;
 
       list.append(bar);
       bar.css('width', Math.abs(width));
@@ -39,15 +39,21 @@ Cityment.Bars = function(data) {
   };
 };
 
-Cityment.Data = function(url) {
-    var url = "https://grepsy.cloudant.com/cityment/_design/aggregate/_view/area?group=true";
+Cityment.Data = function() {
+    var url = "http://grepsy.cloudant.com/cityment/_design/aggregate/_view/area?group=true";
 
-    this.perArea = function() {
-        jQuery.getJSON(url);
+    this.perArea = function(cb) {
+        jQuery.ajax(url, { dataType: 'jsonp', success: cb});
     }
 }
 
 $(document).ready(function() {
-  bars = new Cityment.Bars(scores);
-  bars.draw();
+  data = new Cityment.Data();
+  bars = new Cityment.Bars();
+  data.perArea(function(data) {
+      data.rows.sort(function(a,b){
+        return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
+      });
+      bars.draw(data.rows);
+  });
 });
