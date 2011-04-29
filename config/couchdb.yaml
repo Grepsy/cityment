@@ -1,6 +1,7 @@
 --- 
-:host: localhost
-:port: "5984"
+:host: grepsy.cloudant.com
+:port: 80
 :base: cityment
+:http_basic_authentication: [ "grepsy", "kqljcm34#" ]
 :h: 
   accept: application/json

@@ -57,7 +57,7 @@ module Cityment
         end # Each item
         
       else
-        puts "Skipped allready inserted file #{doc.date_range}"
+        puts "Skipped already inserted file #{doc.date_range}"
       end
          
     end # Each file
