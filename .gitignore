@@ -1,3 +1,4 @@
 /data
 /xml
 /tmp
+*.pyc

@@ -1,6 +1,6 @@
-import json
 import os
-import libxml2
+import couchdb
+import time
 from pattern.web import Google, plaintext
 from pattern.en import parse, split, wordnet
 from pattern.en import ADJECTIVE
@@ -8,45 +8,39 @@ from itertools import groupby
 
 def score(word):
     # neg..pos, range -1..1, disregards objectivity
-    return wordnet.sentiment[word][0] - wordnet.sentiment[word][1]
+    # 0 = pos, 1 = neg, 2 = obj
+    senti = wordnet.sentiment[word] 
+    return senti[0] - senti[1] * senti[2]
 
+batch = 5000
+couch = couchdb.Server("https://grepsy:kqljcm34%23@grepsy.cloudant.com")
+db = couch["cityment"]
+results = db.view("_design/filter/_view/spatial", include_docs=True, limit=batch)
+print len(results)
 articles = []
-for root, dirs, files in os.walk('static'):
-    for filename in files:
-        doc = libxml2.parseFile('static/' + filename)
-        for item in doc.xpathEval('/result/items/item'):
-            areas = item.xpathEval('buurt/title')
-            if len(areas) == 0: continue
-            area = areas[0].content
-            text = item.xpathEval('content')[0].content
-            articles.append((area, text))
-
-# print articles
-# articles = (("noord", "goed goed goed"),
-#             ("west", "aap aap aap"),
-#             ("zuid", "slecht slecht slecht"))
+for item in results.rows[:batch]:
+    articles.append(item.doc)
 
 wordnet.sentiment.load();
 
 table = {}
-for area, text in articles:
-    plain = plaintext(text)
-    trans = Google().translate(plain, "nl", "en")
+for item in articles:
+    try:
+        print "TITLE: ", item["title"]
+        plain = plaintext(item["content"])
+        if (plain == ""):
+            print "skipping"
+            continue
+        trans = Google().translate(plain, "nl", "en")
+        area  = item["buurt"]["title"]
+        textscore = sum([score(word) for word in trans.split(" ")])
+        if (textscore != 0):
+            item["score"] = textscore
+        #print "TRANS: ", trans
+        print area, textscore
+    except:
+        print "error occured :("
+        time.sleep(2)
+        continue
 
-    textscore = sum([score(word) for word in trans.split(" ")])
-    if area in table:
-        table[area] += textscore
-    else:
-        table[area] = textscore
-    print area, textscore
-
-prep = []
-for area, score in table.iteritems():
-    prep.append({ "area": area, "score": score })
-
-prep = sorted(prep, reverse=True, key=lambda row: row["score"])
-
-export = open("web/export.js", "w")
-export.write('var scores = ')
-export.write(json.dumps(prep))
-export.close()
+db.update(articles)

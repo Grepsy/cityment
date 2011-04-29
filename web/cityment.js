@@ -38,14 +38,14 @@ Cityment.Bars = function(data) {
     });
   };
 };
-var scores = [
-  { 'area': 'Nijmegen', 'score': 30 },
-  { 'area': 'Amsterdam', 'score': 20 },
-  { 'area': 'Utrecht', 'score': 16 },
-  { 'area': 'Groningen', 'score': -2 },
-  { 'area': 'Den haag', 'score': -4 },
-  { 'area': 'Maastricht', 'score': -10 },
-];
+
+Cityment.Data = function(url) {
+    var url = "https://grepsy.cloudant.com/cityment/_design/aggregate/_view/area?group=true";
+
+    this.perArea = function() {
+        jQuery.getJSON(url);
+    }
+}
 
 $(document).ready(function() {
   bars = new Cityment.Bars(scores);
