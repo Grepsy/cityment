@@ -10,7 +10,7 @@ end
 
 use Rack::ReverseProxy do
   # Forward the path /test* to http://example.com/test*
-  reverse_proxy '/cityment', 'https://grepsy.cloudant.com/'
+  reverse_proxy 'cityment.heroku.com/cityment', 'https://grepsy.cloudant.com/'
 end
 
 run Rack::Directory.new('web')
