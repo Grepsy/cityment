@@ -1,0 +1,8 @@
+{
+	"_id": "_design/all",
+	"views": {
+		"by_date": {
+			"map": "function(doc){emit(doc.created_at, doc)}"
+		}
+	}
+}
