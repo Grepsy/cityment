@@ -36,11 +36,11 @@ Cityment.Bars = function() {
 };
 
 Cityment.Data = function() {
-    var url = "http://grepsy.cloudant.com/cityment/_design/";
+  var url = "http://grepsy.cloudant.com/cityment/_design/";
 
-    this.view = function(query, cb) {
-        jQuery.ajax(url + query, { dataType: 'jsonp', success: cb});
-    }
+  this.view = function(query, cb) {
+    jQuery.ajax(url + query, { dataType: 'jsonp', success: cb});
+  }
 }
 
 function keySort(key) {
@@ -65,7 +65,7 @@ $(document).ready(function() {
   });
 
   data.view('aggregate/_view/area?group=true', function(data) {
-      data.rows.sort(keySort(function(r) { return r.value; }));
-      bars.draw(data.rows);
+    data.rows.sort(keySort(function(r) { return r.value; }));
+    bars.draw(data.rows);
   });
 });
