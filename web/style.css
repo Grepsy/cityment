@@ -28,8 +28,8 @@ a:hover {
 
 #main ul {
   position: absolute;
-  left: 50%;
-  top: 60px;
+  left: 40%;
+  top: 120px;
 }
 #main ul li {
   background-color: #666;

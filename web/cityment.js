@@ -31,7 +31,7 @@ Cityment.Bars = function() {
   };
 
   this.clear = function(fn) {
-    list.fadeOut(function() { list.empty(); fn; });
+    list.fadeOut(function() { list.empty(); fn(); });
   };
 };
 
@@ -57,9 +57,8 @@ $(document).ready(function() {
     var key = $(this).data('key');
     data.view('filter/_view/spatial?key="'+key+'"&include_docs=true', function(data) {
       data.rows.sort(keySort(function(r) { return r.doc.created_at.join(); }));
-      console.log(data.rows);
       bars.clear(function() {
-        $('#newsitem').tmpl(data.rows).appendTo('main');
+        $('#newsitem').tmpl(data.rows).appendTo('#main');
       });
     });
   });

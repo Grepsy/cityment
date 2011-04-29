@@ -11,7 +11,7 @@
 <body>
   <script id="newsitem" type="text/x-jquery-tmpl">
     <div class="newsitem">
-      <span class="score">${round(doc.score)}</span>
+      <span class="score">${Math.round(doc.score*100)/100}</span>
       <h2>${doc.title}</h2>
       <p>${doc.excerpt}[...]</p>
     </div>
@@ -19,27 +19,6 @@
 
   <div id="main">
     <a id="restart" href="">&laquo; terug naar beginpagina</a>
-
-      <div class="newsitem">
-    <span class="score">63.4</span>
-    <h2>Aap steelt 213 bananen op de grote gevaarlijke markt</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.</p>
-  </div>
-
-  <div class="newsitem">
-    <span class="score">19.7</span>
-    <h2>Aap steelt 213 bananen op markt</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt dolore magna aliqua.</p>
-  </div>
-
-  <div class="newsitem">
-    <span class="score">2.9</span>
-    <h2>Leeuw steelt 324 op de grote gevaarlijke markt</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua.</p>
-  </div>
 
     <ul>
       <li></li>
