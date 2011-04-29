@@ -12,6 +12,8 @@ Cityment.Bars = function() {
           score = $('<span class="score">').text(Math.round(data[i].value*100)/100),
           width = data[i].value * SCALE;
 
+      bar.data('key', data[i].key);
+
       list.append(bar);
       bar.css('width', Math.abs(width));
       if (width < 0) {
@@ -29,31 +31,40 @@ Cityment.Bars = function() {
   };
 
   this.clear = function() {
-    $('li', list).each(function() {
-      var bar = $(this);
-      $('.label', bar).hide('fast');
-      bar.animate({ width: 0, left: 0 }, 500, function() {
-        list.empty();
-      });
-    });
+    list.fadeOut(function() { list.empty(); });
   };
 };
 
 Cityment.Data = function() {
-    var url = "http://grepsy.cloudant.com/cityment/_design/aggregate/_view/area?group=true";
+    var url = "http://grepsy.cloudant.com/cityment/_design/";
 
-    this.perArea = function(cb) {
-        jQuery.ajax(url, { dataType: 'jsonp', success: cb});
+    this.view = function(query, cb) {
+        jQuery.ajax(url + query, { dataType: 'jsonp', success: cb});
     }
+}
+
+function keySort(key) {
+  return function (a, b) {
+    return key(a) < key(b) ? 1 : key(a) > key(b) ? -1 : 0;
+  }
 }
 
 $(document).ready(function() {
   data = new Cityment.Data();
   bars = new Cityment.Bars();
-  data.perArea(function(data) {
-      data.rows.sort(function(a,b){
-        return a.value < b.value ? 1 : a.value > b.value ? -1 : 0;
-      });
+  
+  $('#main ul li').live('click', function() {
+    var key = $(this).data('key');
+    data.view('filter/_view/spatial?key="'+key+'"&include_docs=true', function(data) {
+      data.rows.sort(keySort(function(r) { return r.doc.created_at.join(); }));
+      console.log(data.rows);
+      bars.clear();
+      jQuery.tmpl('<div>${doc.title}</div>', data.rows).appendTo('body');
+    });
+  });
+
+  data.view('aggregate/_view/area?group=true', function(data) {
+      data.rows.sort(keySort(function(r) { return r.value; }));
       bars.draw(data.rows);
   });
 });

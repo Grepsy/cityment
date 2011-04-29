@@ -54,11 +54,14 @@ html, body {
 }
 aside {
   padding: 30px;
-  border-left: 1px solid #ddd;
-  background-color: #f6f6f6;
+  border-left: 1px solid #ccc;
+  background-color: #f2f2f2;
   width: 300px;
+  right: 0;
   min-height: 100%;
-  float: right;
+  position: fixed;
+  z-index: 20;
+  opacity: 0.8;
 }
 
 h1 {
@@ -67,7 +70,9 @@ h1 {
   font-size: 2em;
   font-family: 'Philosopher', arial, serif;
 }
-
+h1 a {
+  text-decoration: none;
+}
 p {
   color: #666;
   line-height: 1.5em;
@@ -76,6 +81,6 @@ p {
 
 .logobox {
   position: absolute;
-  bottom: 0;
+  bottom: 100px;
 }
 .logobox img { float: left; clear: left; margin: 10px 0; }
