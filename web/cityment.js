@@ -59,7 +59,7 @@ $(document).ready(function() {
       data.rows.sort(keySort(function(r) { return r.doc.created_at.join(); }));
       console.log(data.rows);
       bars.clear();
-      jQuery.tmpl('<div>${doc.title}</div>', data.rows).appendTo('body');
+      $('#newsitem').tmpl(data.rows).appendTo('body');
     });
   });
 

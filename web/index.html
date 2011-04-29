@@ -9,8 +9,12 @@
   <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
 </head>
 <body>
-  <script type="html">
-    ${doc.title}
+  <script id="newsitem" type="text/x-jquery-tmpl">
+    <div class="newsitem">
+      <span class="score">${doc.score}</span>
+      <h2>${doc.title}</h2>
+      <p>${doc.excerpt}</p>
+    </div>
   </script>
   <div id="main">
     <ul>
